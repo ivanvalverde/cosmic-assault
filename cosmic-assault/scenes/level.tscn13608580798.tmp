@@ -1,0 +1,75 @@
+[gd_scene load_steps=7 format=3 uid="uid://byem8ms5765w1"]
+
+[ext_resource type="PackedScene" uid="uid://q6ktqwaigkek" path="res://scenes/player.tscn" id="1_2q6dc"]
+[ext_resource type="Script" uid="uid://ddxwsfjjg1htg" path="res://scripts/level.gd" id="1_w7c3h"]
+[ext_resource type="Texture2D" uid="uid://dij7ksokgaqco" path="res://assets/kenney/Backgrounds/black.png" id="2_w8frs"]
+[ext_resource type="PackedScene" uid="uid://cojst2hwuh625" path="res://scenes/meteor.tscn" id="3_ppgk2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w8frs"]
+size = Vector2(21, 962)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mx8sn"]
+size = Vector2(539.5, 20)
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_w7c3h")
+
+[node name="Stars" type="Node2D" parent="."]
+
+[node name="Meteors" type="Node2D" parent="."]
+
+[node name="Meteor" parent="Meteors" instance=ExtResource("3_ppgk2")]
+position = Vector2(378, 158)
+meteor_type = 0
+meteor_color = 0
+
+[node name="Player" parent="." instance=ExtResource("1_2q6dc")]
+visibility_layer = 6
+position = Vector2(281, 311)
+
+[node name="Lasers" type="Node2D" parent="."]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2(0, 960)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+texture_repeat = 2
+texture = ExtResource("2_w8frs")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 540, 960)
+
+[node name="Boundaries" type="Node2D" parent="."]
+
+[node name="RigidBody2D" type="StaticBody2D" parent="Boundaries"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/RigidBody2D"]
+position = Vector2(-10.5, 481)
+shape = SubResource("RectangleShape2D_w8frs")
+
+[node name="RigidBody2D2" type="StaticBody2D" parent="Boundaries"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/RigidBody2D2"]
+position = Vector2(551, 481)
+shape = SubResource("RectangleShape2D_w8frs")
+
+[node name="RigidBody2D3" type="StaticBody2D" parent="Boundaries"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/RigidBody2D3"]
+position = Vector2(270.25, -10)
+shape = SubResource("RectangleShape2D_mx8sn")
+
+[node name="RigidBody2D4" type="StaticBody2D" parent="Boundaries"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundaries/RigidBody2D4"]
+position = Vector2(270, 970)
+shape = SubResource("RectangleShape2D_mx8sn")
+
+[node name="StarsTimer" type="Timer" parent="."]
+wait_time = 0.3
+autostart = true
+
+[connection signal="shoot_laser" from="Player" to="." method="_on_player_shoot_laser"]
+[connection signal="timeout" from="StarsTimer" to="." method="_on_stars_timer_timeout"]

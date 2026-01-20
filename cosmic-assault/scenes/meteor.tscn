@@ -1,0 +1,62 @@
+[gd_scene load_steps=5 format=3 uid="uid://cojst2hwuh625"]
+
+[ext_resource type="Script" uid="uid://2iy1w5c5hkmf" path="res://scripts/meteor.gd" id="1_tcwo0"]
+[ext_resource type="Shader" uid="uid://bepc8vfwhf3u3" path="res://shaders/meteor.gdshader" id="2_pxso2"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_83eji"]
+shader = ExtResource("2_pxso2")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_pct = 0.0
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_tcwo0"]
+particle_flag_disable_z = true
+spread = 150.0
+initial_velocity_min = 20.0
+initial_velocity_max = 100.0
+gravity = Vector3(0, 0, 0)
+
+[node name="Meteor" type="Area2D"]
+light_mask = 2
+visibility_layer = 5
+collision_layer = 2
+collision_mask = 5
+script = ExtResource("1_tcwo0")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_83eji")
+
+[node name="CollisionBig1" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-33, -41, 22, -41, 50, -2, 33, 33, 11, 30, -21, 41, -50, 11)
+
+[node name="CollisionBig2" type="CollisionPolygon2D" parent="."]
+light_mask = 2
+polygon = PackedVector2Array(-40, -41, 6, -48, 60, -29, 46, 18, -9, 33, -26, 49, -54, 27, -60, -5)
+
+[node name="CollisionBig3" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-11, -41, 28, -29, 44, 0, 21, 41, -28, 34, -42, 15, -44, -20)
+
+[node name="CollisionMed1" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-21, -6, -10, -20, 17, -19, 21, 7, 1, 21, -14, 16)
+
+[node name="CollisionSmall1" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-14, -3, -6, -14, 11, -12, 13, 4, 1, 13, -10, 10)
+
+[node name="CollisionTiny1" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-8, -1, -1, -9, 8, -4, 6, 7, -3, 8)
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 20
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_tcwo0")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="WaitToBeQueuedTimer" type="Timer" parent="."]
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="timeout" from="WaitToBeQueuedTimer" to="." method="_on_wait_to_be_queued_timer_timeout"]

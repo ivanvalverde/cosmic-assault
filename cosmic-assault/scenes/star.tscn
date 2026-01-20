@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://da68xocogn31"]
+
+[ext_resource type="Script" uid="uid://bbpww4erbu15" path="res://scripts/star.gd" id="1_j6vao"]
+[ext_resource type="Texture2D" uid="uid://bbbhu1tmajv55" path="res://assets/kenney/Effects/staranimated.png" id="1_mcqwg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j6vao"]
+atlas = ExtResource("1_mcqwg")
+region = Rect2(0, 0, 25, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ef0hr"]
+atlas = ExtResource("1_mcqwg")
+region = Rect2(25, 0, 25, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8d8bx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j6vao")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ef0hr")
+}],
+"loop": true,
+"name": &"default",
+"speed": 2.0
+}]
+
+[node name="star" type="Node2D"]
+script = ExtResource("1_j6vao")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_8d8bx")
+autoplay = "default"
+frame_progress = 0.6755245
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
