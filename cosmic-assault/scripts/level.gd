@@ -6,6 +6,8 @@ var rng = RandomNumberGenerator.new()
 @onready var laser_scene = preload("res://scenes/laser.tscn")
 @onready var star_scene = preload("res://scenes/star.tscn")
 var meteor_scene = preload("res://scenes/meteor.tscn")
+var enemy_scene = preload("res://scenes/enemy.tscn")
+var explosion_scene = preload("res://scenes/explosion.tscn")
 
 var current_mob = 0
 var mobs = [
@@ -14,13 +16,11 @@ var mobs = [
 		"quantity": 30,
 		"type": meteor_scene,
 		"spawn_delay": 0.5
-		}
-	],
-	[
+		},
 		{
-		"quantity": 20,
-		"type": meteor_scene,
-		"spawn_delay": 0.5
+		"quantity": 10,
+		"type": enemy_scene,
+		"spawn_delay": 3
 		}
 	]
 ]
@@ -57,22 +57,34 @@ func start_wave() -> void:
 	await _spawn_wave_over_time(mobs[current_mob])
 	current_mob += 1
 
-	# opcional: esperar morrer tudo pra próxima
-	#await _wait_until_empty($Mobs)
-	#call_deferred("start_wave")
+	 #opcional: esperar morrer tudo pra próxima
+	await _wait_until_empty($Mobs)
+	call_deferred("start_wave")
 
 func _spawn_wave_over_time(wave: Array) -> void:
 	var rect := get_viewport_rect()
+	var offset_x = 40
 	for group in wave:
 		var qty := int(group.quantity)
 		var delay := float(group.get("spawn_delay", 0.2))
 		var scene := group.type as PackedScene
+		print(group)
 		for i in range(qty):
 			var mob = scene.instantiate()
 			$Mobs.add_child(mob)
-			mob.position = Vector2(rng.randf_range(0, rect.size.x), -30)
+			mob.position = Vector2(rng.randf_range(offset_x, rect.size.x - offset_x), -30)
 			await get_tree().create_timer(delay).timeout
+		
 
 func _wait_until_empty(container: Node) -> void:
 	while container.get_child_count() > 0:
 		await container.child_exiting_tree
+
+
+func _on_player_explode(pos: Variant) -> void:
+	var explosion = explosion_scene.instantiate()
+	explosion.global_position = pos
+	add_child(explosion)
+	explosion.play()
+	await explosion.animation_finished
+	explosion.queue_free()

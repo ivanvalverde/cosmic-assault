@@ -3,7 +3,9 @@ extends CharacterBody2D
 
 const SPEED = 300.0
 signal shoot_laser(pos)
+signal explode(pos)
 var can_shoot = true
+var explosion_scene := preload("res://scenes/explosion.tscn")
 
 
 func _physics_process(_delta: float) -> void:
@@ -21,3 +23,7 @@ func _physics_process(_delta: float) -> void:
 
 func _on_laser_timer_timeout() -> void:
 	can_shoot = true
+
+func _get_hit() -> void:
+	explode.emit(global_position)
+	queue_free()

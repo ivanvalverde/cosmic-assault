@@ -180,13 +180,8 @@ func _flash_hit():
 func _on_body_entered(body: Node2D) -> void:
 	health -= 1
 	_flash_hit()
-	var explosion = explosion_scene.instantiate()
-	explosion.global_position = body.global_position
-	body.queue_free()
-	get_parent().get_parent().add_child(explosion)
-	explosion.play()
-	await explosion.animation_finished
-	explosion.queue_free()
+	_check_if_alive()
+	body._get_hit()
 
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
@@ -195,3 +190,18 @@ func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 
 func _on_wait_to_be_queued_timer_timeout() -> void:
 	queue_free()
+
+func _check_if_alive() -> void:
+	if health <= 0:
+		$Sprite2D.hide()
+		for child in get_children():
+			if child is CollisionPolygon2D:
+				child.set_deferred("disabled", true)
+		var explosion = explosion_scene.instantiate()
+		_getting_explosion_scale(meteor_type, explosion)
+		call_deferred("_generating_child_meteors", meteor_type, meteor_color)
+		add_child(explosion)
+		explosion.play()
+		await explosion.animation_finished
+		explosion.queue_free()
+		queue_free()

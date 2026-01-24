@@ -73,5 +73,6 @@ shape = SubResource("RectangleShape2D_mx8sn")
 wait_time = 0.3
 autostart = true
 
+[connection signal="explode" from="Player" to="." method="_on_player_explode"]
 [connection signal="shoot_laser" from="Player" to="." method="_on_player_shoot_laser"]
 [connection signal="timeout" from="StarsTimer" to="." method="_on_stars_timer_timeout"]

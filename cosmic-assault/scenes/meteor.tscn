@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://cojst2hwuh625"]
 
 [ext_resource type="Script" uid="uid://2iy1w5c5hkmf" path="res://scripts/meteor.gd" id="1_tcwo0"]
-[ext_resource type="Shader" uid="uid://bepc8vfwhf3u3" path="res://shaders/meteor.gdshader" id="2_pxso2"]
+[ext_resource type="Shader" uid="uid://bepc8vfwhf3u3" path="res://shaders/flash.gdshader" id="2_pxso2"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_83eji"]
 shader = ExtResource("2_pxso2")
