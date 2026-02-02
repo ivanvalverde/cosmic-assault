@@ -85,5 +85,7 @@ func _check_if_alive() -> void:
 func _on_shoot() -> void:
 	var laser1 = enemy_laser_scene.instantiate()
 	var laser2 = enemy_laser_scene.instantiate()
-	$LaserMarkers/Marker2D.add_child(laser1)
-	$LaserMarkers/Marker2D2.add_child(laser2)
+	laser1.global_position = $LaserMarkers/Marker2D.global_position
+	laser2.global_position = $LaserMarkers/Marker2D2.global_position
+	get_tree().current_scene.get_node("Lasers").add_child(laser1)
+	get_tree().current_scene.get_node("Lasers").add_child(laser2)

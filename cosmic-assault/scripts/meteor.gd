@@ -5,6 +5,7 @@ var velocity := Vector2.ZERO
 var health := 0
 var explosion_scene := preload("res://scenes/explosion.tscn")
 var meteor_scene := preload("res://scenes/meteor.tscn")
+var is_mob := true
 
 @onready var shader_mat: ShaderMaterial = $Sprite2D.material
 
@@ -161,6 +162,7 @@ func _generating_child_meteors(type, color):
 		var meteor = meteor_scene.instantiate()
 		meteor.meteor_color = color
 		meteor.meteor_type = new_type
+		meteor.is_mob = false
 		meteor.global_position = global_position
 		get_parent().add_child(meteor)
 	

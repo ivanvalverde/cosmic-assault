@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://byem8ms5765w1"]
+[gd_scene load_steps=7 format=3 uid="uid://byem8ms5765w1"]
 
 [ext_resource type="PackedScene" uid="uid://q6ktqwaigkek" path="res://scenes/player.tscn" id="1_2q6dc"]
 [ext_resource type="Script" uid="uid://ddxwsfjjg1htg" path="res://scripts/level.gd" id="1_w7c3h"]
+[ext_resource type="PackedScene" uid="uid://bj412w56m6gyw" path="res://scenes/boss.tscn" id="2_mx8sn"]
 [ext_resource type="Texture2D" uid="uid://dij7ksokgaqco" path="res://assets/kenney/Backgrounds/black.png" id="2_w8frs"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w8frs"]
@@ -73,6 +74,14 @@ shape = SubResource("RectangleShape2D_mx8sn")
 wait_time = 0.3
 autostart = true
 
+[node name="BetweenMobTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Boss" parent="." instance=ExtResource("2_mx8sn")]
+position = Vector2(264, 88)
+
+[connection signal="child_exiting_tree" from="Mobs" to="." method="_on_mobs_child_exiting_tree"]
 [connection signal="explode" from="Player" to="." method="_on_player_explode"]
 [connection signal="shoot_laser" from="Player" to="." method="_on_player_shoot_laser"]
 [connection signal="timeout" from="StarsTimer" to="." method="_on_stars_timer_timeout"]
+[connection signal="timeout" from="BetweenMobTimer" to="." method="_on_between_mob_timer_timeout"]

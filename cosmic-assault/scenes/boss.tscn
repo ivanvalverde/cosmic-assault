@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://bj412w56m6gyw"]
+
+[ext_resource type="Texture2D" uid="uid://oidumxhy0g58" path="res://assets/kenney/Enemies/boss.png" id="1_dlmty"]
+[ext_resource type="PackedScene" uid="uid://bsatjqeghqnqq" path="res://scenes/boss_turret.tscn" id="2_neq0i"]
+
+[node name="Boss" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(2, 2)
+texture = ExtResource("1_dlmty")
+
+[node name="BossTurret" parent="." instance=ExtResource("2_neq0i")]
+position = Vector2(-179, 316)
+scale = Vector2(2, 2)

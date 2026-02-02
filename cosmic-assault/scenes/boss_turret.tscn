@@ -1,0 +1,96 @@
+[gd_scene load_steps=8 format=3 uid="uid://bsatjqeghqnqq"]
+
+[ext_resource type="Texture2D" uid="uid://dsdu1wwff6hwm" path="res://assets/kenney/Enemies/boss_cannon.png" id="1_2cfr6"]
+[ext_resource type="Script" uid="uid://bed2mfxsmo3qr" path="res://scripts/boss_turret.gd" id="1_qkwfx"]
+[ext_resource type="Texture2D" uid="uid://1pt5u6xydfkn" path="res://assets/kenney/Enemies/boss_turret.png" id="2_qkwfx"]
+
+[sub_resource type="Animation" id="Animation_ghn3p"]
+resource_name = "open_cannon"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Part/BossCannon:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="Animation" id="Animation_g562f"]
+resource_name = "rise_turret"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Turret/BossTurret:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8]
+}
+
+[sub_resource type="Animation" id="Animation_7c4jf"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Part/BossCannon:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Turret/BossTurret:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_r1l4j"]
+_data = {
+&"RESET": SubResource("Animation_7c4jf"),
+&"open_cannon": SubResource("Animation_ghn3p"),
+&"rise_turret": SubResource("Animation_g562f")
+}
+
+[node name="BossTurret" type="Node2D"]
+script = ExtResource("1_qkwfx")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_r1l4j")
+}
+autoplay = "open_cannon"
+
+[node name="Part" type="Node2D" parent="."]
+
+[node name="BossCannon" type="Sprite2D" parent="Part"]
+texture_filter = 1
+texture = ExtResource("1_2cfr6")
+hframes = 4
+
+[node name="Turret" type="Node2D" parent="."]
+visible = false
+
+[node name="BossTurret" type="Sprite2D" parent="Turret"]
+texture_filter = 1
+position = Vector2(-1.1920929e-07, 0)
+scale = Vector2(0.9166667, 1.0000001)
+texture = ExtResource("2_qkwfx")
+offset = Vector2(-0.54545414, 3.4999995)
+hframes = 9

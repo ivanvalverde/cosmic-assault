@@ -55,6 +55,7 @@ position = Vector2(-35, 65)
 position = Vector2(35, 65)
 
 [node name="LaserTimer" type="Timer" parent="."]
+wait_time = 2.0
 
 [node name="Area2D" type="Area2D" parent="."]
 script = ExtResource("4_5uy6h")
@@ -69,3 +70,4 @@ shape = SubResource("RectangleShape2D_c4w8v")
 [connection signal="timeout" from="WaitToBeQueuedTimer" to="." method="_on_wait_to_be_queued_timer_timeout"]
 [connection signal="timeout" from="LaserTimer" to="Area2D" method="_on_laser_timer_timeout"]
 [connection signal="body_entered" from="Area2D" to="Area2D" method="_on_body_entered"]
+[connection signal="body_exited" from="Area2D" to="Area2D" method="_on_body_exited"]

@@ -4,8 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://bj3ncsdwjhpbr" path="res://assets/kenney/Effects/laserGreen09.png" id="2_iyr3e"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_m3ht5"]
-radius = 5.0
-height = 38.0
+radius = 3.0
+height = 22.0
 
 [node name="EnemyLaser" instance=ExtResource("1_iyr3e")]
 collision_layer = 16
@@ -13,7 +13,6 @@ collision_mask = 5
 laser_direction = 1
 
 [node name="Sprite2D" parent="." index="0"]
-scale = Vector2(1, 1)
 texture = ExtResource("2_iyr3e")
 
 [node name="CollisionShape2D" parent="." index="1"]
@@ -21,6 +20,6 @@ shape = SubResource("CapsuleShape2D_m3ht5")
 
 [node name="VisibleOnScreenNotifier2D" parent="." index="2" groups=["Projectiles"]]
 position = Vector2(0, -5)
-rect = Rect2(-5, -13, 10, 36)
+rect = Rect2(-3, -6, 6, 22)
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -1,6 +1,6 @@
 extends Area2D
 
-@export var laser_speed = 500
+@export var laser_speed = 400
 @export var laser_damage = 1
 @export var laser_direction = -1
 
