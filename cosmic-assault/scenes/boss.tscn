@@ -1,11 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://bj412w56m6gyw"]
+[gd_scene load_steps=6 format=3 uid="uid://bj412w56m6gyw"]
 
 [ext_resource type="Texture2D" uid="uid://oidumxhy0g58" path="res://assets/kenney/Enemies/boss.png" id="1_dlmty"]
+[ext_resource type="Script" uid="uid://dg47hkol2v61b" path="res://scripts/boss.gd" id="1_qnbj4"]
 [ext_resource type="PackedScene" uid="uid://bsatjqeghqnqq" path="res://scenes/boss_turret.tscn" id="2_neq0i"]
+[ext_resource type="PackedScene" uid="uid://b0sv4dwomr8o3" path="res://scenes/boss_platform.tscn" id="3_jncid"]
+[ext_resource type="Texture2D" uid="uid://bmo5q5vxj6k6h" path="res://assets/kenney/Enemies/boss_lower_part.png" id="5_r3bxh"]
 
 [node name="Boss" type="Node2D"]
+script = ExtResource("1_qnbj4")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 2
 texture_filter = 1
 scale = Vector2(2, 2)
 texture = ExtResource("1_dlmty")
@@ -13,3 +18,21 @@ texture = ExtResource("1_dlmty")
 [node name="BossTurret" parent="." instance=ExtResource("2_neq0i")]
 position = Vector2(-179, 316)
 scale = Vector2(2, 2)
+
+[node name="BossTurret2" parent="." instance=ExtResource("2_neq0i")]
+position = Vector2(177, 316)
+scale = Vector2(2, 2)
+
+[node name="BossTurret3" parent="." instance=ExtResource("2_neq0i")]
+position = Vector2(-3, 302)
+scale = Vector2(2, 2)
+
+[node name="BossPlatform" parent="." instance=ExtResource("3_jncid")]
+position = Vector2(-1, 381)
+scale = Vector2(2, 2)
+
+[node name="BossLowerPart" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(1, 414)
+scale = Vector2(2, 2)
+texture = ExtResource("5_r3bxh")

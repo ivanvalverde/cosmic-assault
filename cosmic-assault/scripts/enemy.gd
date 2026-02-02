@@ -8,6 +8,7 @@ var enemy_laser_scene := preload("res://scenes/enemy_laser.tscn")
 @export var health := 3
 
 @onready var shader_mat: ShaderMaterial = $Sprite2D.material
+@onready var spd_direction = [-1, 1].pick_random()
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
@@ -18,7 +19,7 @@ func _process(delta: float) -> void:
 	var viewRect = get_viewport_rect()
 	var offset = 30
 	position.y += vertical_speed * delta
-	position.x += horizontal_speed * delta
+	position.x += spd_direction * horizontal_speed * delta
 	if position.x < viewRect.position.x + offset or position.x > viewRect.end.x - offset:
 		horizontal_speed *= -1
 	

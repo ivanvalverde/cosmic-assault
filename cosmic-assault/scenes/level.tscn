@@ -16,7 +16,12 @@ script = ExtResource("1_w7c3h")
 
 [node name="Stars" type="Node2D" parent="."]
 
+[node name="Boss" parent="." instance=ExtResource("2_mx8sn")]
+position = Vector2(264, 88)
+
 [node name="Lasers" type="Node2D" parent="."]
+
+[node name="Enemies" type="Node2D" parent="."]
 
 [node name="Mobs" type="Node2D" parent="."]
 
@@ -76,9 +81,6 @@ autostart = true
 
 [node name="BetweenMobTimer" type="Timer" parent="."]
 one_shot = true
-
-[node name="Boss" parent="." instance=ExtResource("2_mx8sn")]
-position = Vector2(264, 88)
 
 [connection signal="child_exiting_tree" from="Mobs" to="." method="_on_mobs_child_exiting_tree"]
 [connection signal="explode" from="Player" to="." method="_on_player_explode"]

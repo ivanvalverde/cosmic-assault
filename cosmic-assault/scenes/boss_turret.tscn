@@ -1,8 +1,36 @@
-[gd_scene load_steps=8 format=3 uid="uid://bsatjqeghqnqq"]
+[gd_scene load_steps=11 format=3 uid="uid://bsatjqeghqnqq"]
 
 [ext_resource type="Texture2D" uid="uid://dsdu1wwff6hwm" path="res://assets/kenney/Enemies/boss_cannon.png" id="1_2cfr6"]
 [ext_resource type="Script" uid="uid://bed2mfxsmo3qr" path="res://scripts/boss_turret.gd" id="1_qkwfx"]
 [ext_resource type="Texture2D" uid="uid://1pt5u6xydfkn" path="res://assets/kenney/Enemies/boss_turret.png" id="2_qkwfx"]
+[ext_resource type="Shader" uid="uid://bepc8vfwhf3u3" path="res://shaders/flash.gdshader" id="4_ghn3p"]
+
+[sub_resource type="Animation" id="Animation_7c4jf"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Part/BossCannon:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Turret/BossTurret:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
 
 [sub_resource type="Animation" id="Animation_ghn3p"]
 resource_name = "open_cannon"
@@ -34,33 +62,6 @@ tracks/0/keys = {
 "values": [0, 1, 2, 3, 4, 5, 6, 7, 8]
 }
 
-[sub_resource type="Animation" id="Animation_7c4jf"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Part/BossCannon:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Turret/BossTurret:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_r1l4j"]
 _data = {
 &"RESET": SubResource("Animation_7c4jf"),
@@ -68,7 +69,21 @@ _data = {
 &"rise_turret": SubResource("Animation_g562f")
 }
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ghn3p"]
+resource_local_to_scene = true
+shader = ExtResource("4_ghn3p")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_pct = 0.0
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qkwfx"]
+particle_flag_disable_z = true
+spread = 150.0
+initial_velocity_min = 20.0
+initial_velocity_max = 100.0
+gravity = Vector3(0, 0, 0)
+
 [node name="BossTurret" type="Node2D"]
+z_index = 3
 script = ExtResource("1_qkwfx")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -84,13 +99,36 @@ texture_filter = 1
 texture = ExtResource("1_2cfr6")
 hframes = 4
 
-[node name="Turret" type="Node2D" parent="."]
+[node name="Turret" type="Area2D" parent="."]
 visible = false
+collision_layer = 2
+collision_mask = 4
 
 [node name="BossTurret" type="Sprite2D" parent="Turret"]
 texture_filter = 1
-position = Vector2(-1.1920929e-07, 0)
+material = SubResource("ShaderMaterial_ghn3p")
+position = Vector2(-1.2621775e-29, 0)
 scale = Vector2(0.9166667, 1.0000001)
 texture = ExtResource("2_qkwfx")
-offset = Vector2(-0.54545414, 3.4999995)
+offset = Vector2(-0.5454542, 3.4999995)
 hframes = 9
+
+[node name="ShootTimer" type="Timer" parent="Turret"]
+wait_time = 3.0
+
+[node name="TurretAim" type="Marker2D" parent="Turret"]
+position = Vector2(0, 18)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Turret"]
+polygon = PackedVector2Array(-6, 4, -6, -4, -4, -6, 3, -6, 5, -4, 5, 4, 3, 6, 1, 6, 1, 13, -2, 13, -2, 6, -4, 6)
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Turret"]
+emitting = false
+amount = 20
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_qkwfx")
+
+[connection signal="area_entered" from="Turret" to="." method="_on_turret_area_entered"]
+[connection signal="timeout" from="Turret/ShootTimer" to="." method="_on_shoot_timer_timeout"]

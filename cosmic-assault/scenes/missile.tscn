@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dl2j06v5n1xnh"]
+
+[ext_resource type="Script" uid="uid://c3oldn3p330om" path="res://scripts/missile.gd" id="1_6cx5e"]
+[ext_resource type="Texture2D" uid="uid://br5xm3bt777um" path="res://assets/kenney/Projectiles/spaceMissiles_013.png" id="2_35udt"]
+
+[node name="Missile" type="Area2D"]
+z_index = 3
+script = ExtResource("1_6cx5e")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_35udt")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-16, 4, -13, 1, -12, -12, -7, -19, 0, -22, 7, -19, 12, -13, 13, 1, 16, 4, 16, 22, -16, 22)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
